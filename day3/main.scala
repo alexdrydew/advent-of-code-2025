@@ -1,5 +1,8 @@
 import scala.io.Source
 import scala.collection.mutable.Stack
+import scala.collection.mutable.ListBuffer
+import java.util.LinkedList
+import scala.collection.mutable.ArrayDeque
 
 def findLargestTwoDigitNum(s: String): Int = {
   val stack: Stack[Int] = Stack();
@@ -30,6 +33,28 @@ def findLargestTwoDigitNum(s: String): Int = {
   max
 }
 
+def findLargestNDigitNum(s: String, n: Int): Long = {
+  val buf: ListBuffer[Long] = ListBuffer();
+  var max = 0L;
+  for c <- s do {
+    val digit = c.asDigit;
+    buf.append(digit);
+    if (buf.size > n) {
+      var i = 1;
+      while (i < buf.size && buf(i - 1) >= buf(i)) {
+        i += 1;
+      }
+      if i < buf.size then {
+        buf.remove(i - 1);
+      } else {
+        buf.remove(buf.size - 1);
+      }
+    }
+    max = Math.max(max, buf.mkString.toLong);
+  }
+  max
+}
+
 @main
 def main(part: String): Unit = {
   val banks = Source.fromFile("day3/input.txt").getLines();
@@ -39,7 +64,7 @@ def main(part: String): Unit = {
       println(banks.map(findLargestTwoDigitNum).sum)
     }
     case "part2" => {
-      ???
+      println(banks.map(s => findLargestNDigitNum(s, 12)).sum)
     }
   }
 }
