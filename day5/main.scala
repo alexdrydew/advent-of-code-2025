@@ -70,18 +70,20 @@ def main(part: String): Unit = {
     .getLines();
   val (intervals, ingredients) = parseLines(field);
 
-  val mergedLongervals = mergeIntervals(intervals.toSeq);
+  val mergedIntervals = mergeIntervals(intervals.toSeq);
 
   part match {
     case "part1" => {
       println(
         ingredients.count(
-          isContainedInInterval(mergedLongervals.toSeq, _)
+          isContainedInInterval(mergedIntervals.toSeq, _)
         )
       );
     }
     case "part2" => {
-      ???
+      println(
+        mergedIntervals.map { case (start, end) => end - start + 1 }.sum
+      );
     }
   }
 }
