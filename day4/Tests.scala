@@ -57,3 +57,26 @@ class CalculateNeighborsTest extends munit.FunSuite:
       )
     )
   }
+
+class SimulateRollsCollectionTest extends munit.FunSuite:
+  test("test1") {
+    val cells =
+      """
+..@@.@@@@.
+@@@.@.@.@@
+@@@@@.@.@@
+@.@@@@..@.
+@@.@@@@.@@
+.@@@@@@@.@
+.@.@.@.@@@
+@.@@@.@@@@
+.@@@@@@@@.
+@.@.@@@.@.
+""".trim.split("\n")
+        .map(_.toCharArray.map['.' | '@'] {
+          case '.' => '.'
+          case '@' => '@'
+        })
+    val field = buildField(cells)
+    assertEquals(simulateRollsCollection(field), 43)
+  }
